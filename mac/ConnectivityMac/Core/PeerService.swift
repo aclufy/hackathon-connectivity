@@ -9,11 +9,8 @@
 import MultipeerConnectivity
 
 final class PeerService: NSObject {
-    
     var didFindDevice: ((_ name: String) -> Void)?
-    
     var didConnectToDevice: ((_ name: String) -> Void)?
-    
     var didReceiveFile: ((_ url: URL) -> Void)?
     
     // MD1
