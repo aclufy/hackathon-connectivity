@@ -174,10 +174,10 @@ extension PeerService: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        let url = NSUnarchiver.unarchiveObject(with: data) as! String
-        NSLog("Received URL: \(url)")
+        let url = String(data: data, encoding: .utf8)
+        NSLog("Received URL: \(url ?? "<empty>")")
         DispatchQueue.main.async {
-            self.didReceiveURL?(url)
+            self.didReceiveURL?(url ?? "about:blank")
         }
     }
     

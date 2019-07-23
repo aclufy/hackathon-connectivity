@@ -7,21 +7,33 @@
 //
 
 import Cocoa
+import WebKit
 
 class ViewController: NSViewController, NSWindowDelegate {
-    private var isInDemoMode: Bool {
-        return UserDefaults.standard.bool(forKey: "DemoMode")
-    }
+    @IBOutlet weak var webView: WKWebView!
+    private var isShowingContent = false
     
     private lazy var peerService: PeerService = {
         let s = PeerService()
         
         s.didFindDevice = { [weak self] deviceName in
-            print("found device ", deviceName)
+            guard let self = self else {
+                return
+            }
+            if !self.isShowingContent {
+                self.webView.loadHTMLString("<html><body>Found a device \"\(deviceName)\"</body></html>", baseURL: nil)
+            }
         }
         s.didReceiveFile = { [weak self] url in
+            guard let self = self else {
+                return
+            }
         }
         s.didReceiveURL = { [weak self] url in
+            guard let self = self else {
+                return
+            }
+            self.loadURLContent(url: url)
         }
         
         return s
@@ -29,11 +41,15 @@ class ViewController: NSViewController, NSWindowDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.window?.delegate = self
+        if let wind = self.view.window {
+            wind.delegate = self;
+        }
 
         // Do any additional setup after loading the view.
         peerService.startAdvertising()
         peerService.startListening()
+        
+        self.webView.loadHTMLString("<html><body>No device connected.</body></html>", baseURL: nil)
     }
     
     func windowWillClose(_ notification: Notification) {
@@ -45,6 +61,28 @@ class ViewController: NSViewController, NSWindowDelegate {
         didSet {
         // Update the view, if already loaded.
         }
+    }
+    
+    func bringToFront() {
+        NSApp.activate(ignoringOtherApps: true)
+        if let screen = NSScreen.main {
+            self.view.window?.setFrame(screen.visibleFrame, display: true, animate: true)
+        }
+    }
+    
+    func delay(_ delay:Double, closure:@escaping ()->()) {
+        let when = DispatchTime.now() + delay
+        DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
+    }
+    
+    func loadURLContent(url: String) {
+        self.isShowingContent = true
+        if let url = URL(string: url.trimmingCharacters(in: .whitespacesAndNewlines)) {
+            self.webView.load(URLRequest(url: url))
+        } else {
+            self.webView.loadHTMLString("<html><body></body></html>", baseURL: nil)
+        }
+        self.bringToFront()
     }
 }
 
