@@ -12,6 +12,7 @@
 		B466BCB122E5A4DD008EA687 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B466BCB022E5A4DD008EA687 /* Assets.xcassets */; };
 		B466BCB422E5A4DD008EA687 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B466BCB222E5A4DD008EA687 /* Main.storyboard */; };
 		B466BCBE22E5A54A008EA687 /* PeerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B466BCBD22E5A54A008EA687 /* PeerService.swift */; };
+		B4C6A63022E6C98800C14421 /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C6A62F22E6C98800C14421 /* Bookmark.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		B466BCB522E5A4DD008EA687 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B466BCB622E5A4DD008EA687 /* ConnectivityMac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ConnectivityMac.entitlements; sourceTree = "<group>"; };
 		B466BCBD22E5A54A008EA687 /* PeerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerService.swift; sourceTree = "<group>"; };
+		B4C6A62F22E6C98800C14421 /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				B466BCBD22E5A54A008EA687 /* PeerService.swift */,
+				B4C6A62F22E6C98800C14421 /* Bookmark.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -152,6 +155,7 @@
 				B466BCAF22E5A4DB008EA687 /* ViewController.swift in Sources */,
 				B466BCAD22E5A4DB008EA687 /* AppDelegate.swift in Sources */,
 				B466BCBE22E5A54A008EA687 /* PeerService.swift in Sources */,
+				B4C6A63022E6C98800C14421 /* Bookmark.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

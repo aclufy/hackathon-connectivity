@@ -9,7 +9,7 @@
 import Cocoa
 import WebKit
 
-class ViewController: NSViewController, NSWindowDelegate {
+class ViewController: NSViewController, NSWindowDelegate, WKNavigationDelegate {
     @IBOutlet weak var webView: WKWebView!
     private var isShowingContent = false
     
@@ -44,6 +44,7 @@ class ViewController: NSViewController, NSWindowDelegate {
         if let wind = self.view.window {
             wind.delegate = self;
         }
+        self.webView.navigationDelegate = self
 
         // Do any additional setup after loading the view.
         peerService.startAdvertising()
@@ -83,6 +84,14 @@ class ViewController: NSViewController, NSWindowDelegate {
             self.webView.loadHTMLString("<html><body></body></html>", baseURL: nil)
         }
         self.bringToFront()
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        print("Finished navigation")
+    }
+    
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        print("Navigation failed, error: \(error.localizedDescription)")
     }
 }
 

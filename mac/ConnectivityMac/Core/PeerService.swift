@@ -13,6 +13,7 @@ final class PeerService: NSObject {
     var didConnectToDevice: ((_ name: String) -> Void)?
     var didReceiveFile: ((_ url: URL) -> Void)?
     var didReceiveURL: ((_ url: String) -> Void)?
+    var didReceiveBookmark: ((_ bookmark: Bookmark) -> Void)?
     
     // MD1
     lazy var me: MCPeerID = {
@@ -174,10 +175,13 @@ extension PeerService: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        let url = String(data: data, encoding: .utf8)
-        NSLog("Received URL: \(url ?? "<empty>")")
-        DispatchQueue.main.async {
-            self.didReceiveURL?(url ?? "about:blank")
+        if let url = String(data: data, encoding: .utf8) {
+            NSLog("Received URL: \(url)")
+            DispatchQueue.main.async {
+                self.didReceiveURL?(url)
+            }
+        } else if let bookmark = NSUnarchiver.unarchiveObject(with: data) as? Bookmark {
+            self.didReceiveBookmark?(bookmark)
         }
     }
     
