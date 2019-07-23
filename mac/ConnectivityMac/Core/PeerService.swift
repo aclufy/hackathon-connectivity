@@ -12,6 +12,7 @@ final class PeerService: NSObject {
     var didFindDevice: ((_ name: String) -> Void)?
     var didConnectToDevice: ((_ name: String) -> Void)?
     var didReceiveFile: ((_ url: URL) -> Void)?
+    var didReceiveURL: ((_ url: String) -> Void)?
     
     // MD1
     lazy var me: MCPeerID = {
@@ -173,7 +174,11 @@ extension PeerService: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        
+        let url = NSUnarchiver.unarchiveObject(with: data) as! String
+        NSLog("Received URL: \(url)")
+        DispatchQueue.main.async {
+            self.didReceiveURL?(url)
+        }
     }
     
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
@@ -185,7 +190,7 @@ extension PeerService: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
-        NSLog("Finished resource download: \(resourceName)")
+        NSLog("Received file: \(resourceName)")
         
         // MD12
         guard let url = localURL else { return }

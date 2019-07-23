@@ -21,6 +21,8 @@ class ViewController: NSViewController, NSWindowDelegate {
         }
         s.didReceiveFile = { [weak self] url in
         }
+        s.didReceiveURL = { [weak self] url in
+        }
         
         return s
     }()
