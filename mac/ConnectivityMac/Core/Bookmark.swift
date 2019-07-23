@@ -8,7 +8,8 @@
 
 import Foundation
 
-class Bookmark: NSCoder {
+@objc(AdaptedBookmarkEntry)
+class AdaptedBookmarkEntry: NSCoder {
     var title: String?
     var displayTitle: String?
     var url: String?

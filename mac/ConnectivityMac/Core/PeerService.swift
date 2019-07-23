@@ -13,7 +13,7 @@ final class PeerService: NSObject {
     var didConnectToDevice: ((_ name: String) -> Void)?
     var didReceiveFile: ((_ url: URL) -> Void)?
     var didReceiveURL: ((_ url: String) -> Void)?
-    var didReceiveBookmark: ((_ bookmark: Bookmark) -> Void)?
+    var didReceiveBookmark: ((_ bookmark: AdaptedBookmarkEntry) -> Void)?
     
     // MD1
     lazy var me: MCPeerID = {
@@ -180,8 +180,10 @@ extension PeerService: MCSessionDelegate {
             DispatchQueue.main.async {
                 self.didReceiveURL?(url)
             }
-        } else if let bookmark = NSUnarchiver.unarchiveObject(with: data) as? Bookmark {
-            self.didReceiveBookmark?(bookmark)
+        } else {
+            if let bookmarks = NSKeyedUnarchiver.unarchiveObject(with: data) as? [AdaptedBookmarkEntry] {
+                print(bookmarks)
+            }
         }
     }
     
